@@ -1,51 +1,56 @@
 class Solution {
 public:
-   string removeKdigits(string num, int k) {
-        string str="";
-        stack<char>st;
-        int i=0,count=0;
-        if(num.size()==k)
-        { 
+    string removeKdigits(string num, int k) {
+        // number of operation greater than length we return an empty string
+        if(num.length() <= k)   
             return "0";
-        }
-       while(i<num.size())
-       {
-           if(st.empty())
-           {
-               st.push(num[i]);
-               i++;
-               continue;
-           }
-           while((!st.empty() && k>0))
-           {
-               if(st.top()>num[i]){//if top element is greater than the incoming then we are removing the top element;
-               st.pop();
-               k--;
-               }
-               else 
-               break;
-           }
-           st.push(num[i]);
-           i++;
-       }
-       while(k--)//this is the loop if k remains greater than zero then in that case the top elements are greater than the bottom ones;
-       {
-       st.pop();
-       }
-       while(!st.empty())
+        
+        // k is 0 , no need of removing /  preforming any operation
+        if(k == 0)
+            return num;
+        
+        string res = "";// result string
+        stack <char> s; // char stack
+        
+        s.push(num[0]); // pushing first character into stack
+        
+        for(int i = 1; i<num.length(); ++i)
         {
-            str.push_back(st.top());//push the stack elements into the string
-            st.pop();
+            while(k > 0 && !s.empty() && num[i] < s.top())
+            {
+                // if k greater than 0 and our stack is not empty and the upcoming digit,
+                // is less than the current top than we will pop the stack top
+                --k;
+                s.pop();
+            }
+            
+            s.push(num[i]);
+            
+            // popping preceding zeroes
+            if(s.size() == 1 && num[i] == '0')
+                s.pop();
         }
         
-        reverse(str.begin(), str.end());//reversing to get the lowest number
+        while(k && !s.empty())
+        {
+            // for cases like "456" where every num[i] > num.top()
+            --k;
+            s.pop();
+        }
         
-        while(!str.empty()&& str[0] == '0')//removing zeros if there are any
-            str.erase(str.begin());
+        while(!s.empty())
+        {
+            res.push_back(s.top()); // pushing stack top to string
+            s.pop(); // pop the top element
+        }
         
-        if(str.empty())
+        reverse(res.begin(),res.end()); // reverse the string 
+        
+        if(res.length() == 0)
             return "0";
         
-        return str;
+        return res;
+        
+        
     }
 };
