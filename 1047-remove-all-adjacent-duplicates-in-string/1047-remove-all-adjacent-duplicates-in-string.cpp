@@ -1,21 +1,20 @@
 class Solution {
 public:
-    std::string removeDuplicates(std::string s) {
-        int n = s.length();
-        int i = 0;
-        
-        while (i < n - 1) {
-            if (s[i] == s[i + 1]) {
-                s.erase(i, 2);
-                n -= 2;
-                if (i > 0) {
-                    i--;
-                }
-            } else {
-                i++;
-            }
-        }
-        
-        return s;
-    }
+	string removeDuplicates(string s) {
+
+		string ans;
+		ans.push_back(s[0]);
+
+		for(int i=1 ; i<s.length() ; i++){
+
+			if(s[i] == ans.back()){
+				ans.pop_back();
+			}
+			else{
+				ans.push_back(s[i]);
+			}
+		}
+
+		return ans;
+	}
 };
