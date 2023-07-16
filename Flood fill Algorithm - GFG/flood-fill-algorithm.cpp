@@ -16,7 +16,7 @@ public:
         int nRow = row + delRow[i];
         int nCol = col + delCol[i];
         
-        if (nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && image[nRow][nCol] == iniColor && ans[nRow][nCol] != newColor) {
+        if (nRow >= 0 && nRow < n && nCol >= 0 && nCol < m && ans[nRow][nCol] == iniColor && ans[nRow][nCol] != newColor) {
             dfs(nRow, nCol, image, ans, delRow, delCol, newColor, iniColor);
         }
     }
