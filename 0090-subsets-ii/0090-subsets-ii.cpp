@@ -1,43 +1,30 @@
 class Solution {
-public:
+private:
     
-    vector<vector<int>> ans;
-    
-    void help(int i,vector<int> &nums,vector<int> &temp, bool flag)
-    {
+    void help(int i,vector<int>& nums,vector<vector<int>> &ans, vector<int> &ds){
         
-        if(i==nums.size())
+        ans.push_back(ds);
+        
+        for(int j=i;j<nums.size();j++)
         {
-            ans.push_back(temp);
-        }
-        
-        else{
-            
-            help(i+1,nums,temp,false);
-            
-            if(i>0 && nums[i]==nums[i-1] && !flag)
-            {
-                return ;
-            }
-            
-            temp.push_back(nums[i]);
-            help(i+1,nums,temp,true);
-            
-            temp.pop_back();         
-            
-        }    
-    }  
-    
+            if(j!=i && nums[j]==nums[j-1])continue;    
+            ds.push_back(nums[j]);
+            help(j+1,nums,ans,ds);
+            ds.pop_back();
+        }   
+    }
+       
+  public:  
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         
-        sort(nums.begin(),nums.end());
-        vector<int> temp;
+        vector<vector<int>> ans;
         
-        help(0,nums,temp,false);
+        vector<int> ds;
+         sort(nums.begin(),nums.end());
+        help(0,nums,ans,ds);
         
+       
         return ans;
-        
-        
         
     }
 };
